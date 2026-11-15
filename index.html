@@ -8,33 +8,52 @@
   
   <style>
     /* =========================================
-       1. 彻底清理顶部：隐藏多余的标题、文字、徽章
+       1. 彻底清理顶部：只保留导航栏
        ========================================= */
-    /* 隐藏所有普通的 p 标签（这会干掉“收集全网...”和“若出现兼容性...”） */
-    .markdown-section > p { display: none !important; }
+    /* 隐藏大标题（💻 简历收集 🔥） */
+    div[align="center"] > h1 {
+      display: none !important;
+    }
     
-    /* 隐藏顶部的 h1 标题和分割线 */
-    div[align="center"] h1, hr { display: none !important; }
-    
-    /* 将顶部的徽章图标隐藏 */
-    div[align="center"] a { display: none !important; }
-    div[align="center"] br { display: none !important; }
+    /* 隐藏第二个分割线及它下面的所有文字、徽章、换行 */
+    div[align="center"] > hr:nth-of-type(2),
+    div[align="center"] > hr:nth-of-type(2) ~ * {
+      display: none !important;
+    }
 
     /* =========================================
-       2. 单列满屏显示（代替之前的双列网格）
+       2. 简历列表网格化改造（去掉表格线和下载列）
        ========================================= */
     /* 隐藏表格原本的表头 */
-    table thead { display: none !important; }
+    table thead {
+      display: none !important;
+    }
 
-    /* 把表格彻底打碎，变成单列块级布局 */
-    table { display: block !important; width: 100% !important; border: none !important; margin-top: 10px !important; }
-    table tbody, table tr, table td {
-      display: block !important;
+    /* 将表格强制转换为两列网格布局 */
+    table {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important; 
+      gap: 25px 10px !important; 
       width: 100% !important;
       border: none !important;
+      background: transparent !important;
+      margin-top: 20px !important;
+    }
+
+    /* 抽离表格的行列属性 */
+    table tbody, table tr {
+      display: contents !important; 
+    }
+
+    /* 设置每个格子的样式 */
+    table td {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
       padding: 0 !important;
-      margin: 0 0 30px 0 !important; /* 每张卡片底部的间距 */
-      text-align: center !important;
+      border: none !important;
+      background: transparent !important;
+      width: 100% !important;
     }
 
     /* 隐藏第2列和第4列（下载链接） */
@@ -42,36 +61,28 @@
       display: none !important;
     }
 
-    /* 图片满屏显示，加上圆角和阴影 */
+    /* 图片自适应并添加圆角阴影 */
     table img {
-      width: 100% !important;
+      max-width: 100% !important;
       height: auto !important;
       border-radius: 8px !important; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08) !important; 
     }
 
-    /* 把简历标题文字样式变好看 */
+    /* 调整简历标题文字样式 */
     table p {
-      display: block !important;
-      font-size: 16px !important;
-      font-weight: bold !important;
-      margin: 0 0 15px 0 !important;
+      text-align: center !important;
+      font-size: 14px !important;
+      margin: 10px 0 0 0 !important;
       color: #333 !important;
-      background: #f4f5f7 !important;
-      padding: 10px !important;
-      border-radius: 6px !important;
+      line-height: 1.4 !important;
+      font-weight: bold !important;
     }
 
-    /* =========================================
-       3. 页面布局优化
-       ========================================= */
-    .markdown-section {
-      max-width: 100% !important;
-      padding: 15px !important;
+    /* 优化页面边距 */
+    .content {
+      padding: 15px 10px !important;
     }
-    /* 强制隐藏可能因为缓存残存的侧边栏 */
-    .sidebar, .sidebar-toggle { display: none !important; }
-    .content { left: 0 !important; }
   </style>
 </head>
 <body>
@@ -79,23 +90,10 @@
   
   <script>
     window.$docsify = {
-      name: '',
-      // 1. 去除了右上角 repo 链接
-      // 2. 去除了 loadSidebar: true (侧边栏)
-      plugins: [
-        function(hook) {
-          hook.doneEach(function() {
-            // 3. 暴力清理残留的纯文本（若出现兼容性问题...）
-            const content = document.querySelector('.markdown-section');
-            if (content) {
-              let html = content.innerHTML;
-              html = html.replace(/若出现兼容性问题，请自行修改后缀名/g, '');
-              html = html.replace(/docx<=>doc/g, '');
-              content.innerHTML = html;
-            }
-          });
-        }
-      ]
+      name: 'ResumeCollection',
+      repo: 'vod88/ResumeCollection',
+      loadSidebar: true, 
+      subMaxLevel: 2
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
