@@ -64,11 +64,19 @@
       border-radius: 6px !important; 
       box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important; 
       cursor: zoom-in;
-      transition: transform 0.2s;
+      transition: transform 0.2s, opacity 0.3s;
+      /* 懒加载淡入效果 */
+      opacity: 0; 
     }
+
+    /* 图片加载完成后的样式 */
+    table img.loaded {
+      opacity: 1;
+    }
+
     table img:hover { transform: scale(1.02); }
 
-    /* 统一处理标题文字样式（兼容 code 和 p 标签） */
+    /* 统一处理标题文字样式 */
     table p, table code {
       display: block !important;
       font-size: 13px !important;
@@ -126,26 +134,37 @@
               content.innerHTML = html;
             }
 
-            // 2. 给标题添加序列号 (001, 002...)
+            // 2. 给图片添加懒加载和淡入效果
+            const allImgs = document.querySelectorAll('.markdown-section table img');
+            allImgs.forEach(img => {
+              // 添加浏览器原生懒加载属性
+              img.setAttribute('loading', 'lazy');
+              img.setAttribute('decoding', 'async');
+
+              // 处理淡入效果（避免加载时闪烁）
+              if (img.complete) {
+                img.classList.add('loaded');
+              } else {
+                img.addEventListener('load', () => img.classList.add('loaded'));
+              }
+            });
+
+            // 3. 给标题添加序列号 (001, 002...)
             let counter = 1;
             const tds = document.querySelectorAll('.markdown-section table td');
             tds.forEach(td => {
-              // 只处理有图片的预览列
               if (td.querySelector('img')) {
                 let titleEl = td.querySelector('code') || td.querySelector('p');
                 if (titleEl) {
-                  // 格式化序号为三位数
                   let num = counter.toString().padStart(3, '0');
-                  // 插入序号，并加上颜色区分
                   titleEl.innerHTML = `<span style="color: #e74c3c; font-size: 15px; margin-right: 4px;">${num}.</span>` + titleEl.innerHTML;
                   counter++;
                 }
               }
             });
 
-            // 3. 绑定图片点击放大事件
-            const imgs = document.querySelectorAll('.markdown-section table img');
-            imgs.forEach(img => {
+            // 4. 绑定图片点击放大事件
+            allImgs.forEach(img => {
               img.addEventListener('click', function(e) {
                 if (document.getElementById('custom-lightbox')) return;
 
