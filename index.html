@@ -8,37 +8,39 @@
   
   <style>
     /* =========================================
-       1. 隐藏头部多余的介绍文字、徽章和横线
+       1. 彻底清理顶部：只保留导航栏
        ========================================= */
-    /* 隐藏除了第一行导航（中文简历|EnglishResume...）之外的所有段落 */
-    div[align="center"] > p:nth-of-type(n+2) {
+    /* 隐藏大标题（💻 简历收集 🔥） */
+    div[align="center"] > h1 {
       display: none !important;
     }
-    /* 隐藏底部多余的分割线 */
-    div[align="center"] > hr:nth-of-type(n+2) {
+    
+    /* 隐藏第二个分割线及它下面的所有文字、徽章、换行 */
+    div[align="center"] > hr:nth-of-type(2),
+    div[align="center"] > hr:nth-of-type(2) ~ * {
       display: none !important;
     }
 
     /* =========================================
        2. 简历列表网格化改造（去掉表格线和下载列）
        ========================================= */
-    /* 隐藏表格原本的表头（如“简历预览”、“下载”） */
+    /* 隐藏表格原本的表头 */
     table thead {
       display: none !important;
     }
 
-    /* 将表格强制转换为网格（Grid）布局 */
+    /* 将表格强制转换为两列网格布局 */
     table {
       display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important; /* 左右两列等宽 */
-      gap: 25px 10px !important; /* 上下间距25px，左右间距10px */
+      grid-template-columns: repeat(2, 1fr) !important; 
+      gap: 25px 10px !important; 
       width: 100% !important;
       border: none !important;
       background: transparent !important;
       margin-top: 20px !important;
     }
 
-    /* 抽离表格的行列属性，让内容直接平铺到网格里 */
+    /* 抽离表格的行列属性 */
     table tbody, table tr {
       display: contents !important; 
     }
@@ -54,12 +56,12 @@
       width: 100% !important;
     }
 
-    /* 隐藏原来的第2列和第4列（即“下载”链接列） */
+    /* 隐藏第2列和第4列（下载链接） */
     table td:nth-child(2), table td:nth-child(4) {
       display: none !important;
     }
 
-    /* 图片自适应，防止撑破手机屏幕，并加上圆角阴影 */
+    /* 图片自适应并添加圆角阴影 */
     table img {
       max-width: 100% !important;
       height: auto !important;
@@ -67,7 +69,7 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.08) !important; 
     }
 
-    /* 调整上方标题文字的居中显示 */
+    /* 调整简历标题文字样式 */
     table p {
       text-align: center !important;
       font-size: 14px !important;
@@ -77,7 +79,7 @@
       font-weight: bold !important;
     }
 
-    /* 优化网页整体边距 */
+    /* 优化页面边距 */
     .content {
       padding: 15px 10px !important;
     }
