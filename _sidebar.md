@@ -1,3 +1,6 @@
-* [首页](/)
+* [首页](/#)
 * [中文简历](#中文简历)
-* [English Resume](#englishresume)
+* [EnglishResume](#englishresume)
+* [多页简历](#多页简历)
+* [简历封面](#简历封面)
+* [信息表格](#信息表格)
