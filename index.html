@@ -6,29 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   
-  <!-- 自定义样式：隐藏下载列并优化手机排版 -->
   <style>
-    /* 隐藏表格的第2列和第4列（也就是下载列） */
-    table th:nth-child(2), table td:nth-child(2),
-    table th:nth-child(4), table td:nth-child(4) {
+    /* 1. 隐藏表格原本的表头（如“简历预览”、“下载”） */
+    table thead {
       display: none !important;
     }
-    
-    /* 强制表格内的图片适应屏幕宽度，防止撑破手机屏幕 */
+
+    /* 2. 核心魔法：将表格强制转换为网格（Grid）布局 */
+    table {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important; /* 强制变成左右两列等宽 */
+      gap: 25px 10px !important; /* 上下间距25px，左右间距10px */
+      width: 100% !important;
+      border: none !important;
+      background: transparent !important;
+    }
+
+    /* 3. 抽离表格的行列属性，让内容直接平铺到网格里 */
+    table tbody, table tr {
+      display: contents !important; 
+    }
+
+    /* 4. 设置每个格子的样式 */
+    table td {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 0 !important;
+      border: none !important;
+      background: transparent !important;
+      width: 100% !important;
+    }
+
+    /* 5. 隐藏原来的第2列和第4列（即“下载”链接列） */
+    table td:nth-child(2), table td:nth-child(4) {
+      display: none !important;
+    }
+
+    /* 6. 图片自适应，防止撑破手机屏幕，并加上圆角阴影 */
     table img {
       max-width: 100% !important;
       height: auto !important;
-      border-radius: 5px;
-    }
-    
-    /* 让表格在手机上紧凑一点，留出呼吸感 */
-    table th, table td {
-      padding: 8px !important;
+      border-radius: 8px !important; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08) !important; 
     }
 
-    /* 移动端内容区域留白优化 */
+    /* 7. 调整上方标题文字的居中显示 */
+    table p {
+      text-align: center !important;
+      font-size: 14px !important;
+      margin: 10px 0 0 0 !important;
+      color: #333 !important;
+      line-height: 1.4 !important;
+      font-weight: bold !important;
+    }
+
+    /* 优化网页整体边距 */
     .content {
-      padding: 20px 10px !important;
+      padding: 15px 10px !important;
     }
   </style>
 </head>
