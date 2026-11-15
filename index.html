@@ -5,14 +5,41 @@
   <title>ResumeCollection - 简历模板大全</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  
+  <!-- 自定义样式：隐藏下载列并优化手机排版 -->
+  <style>
+    /* 隐藏表格的第2列和第4列（也就是下载列） */
+    table th:nth-child(2), table td:nth-child(2),
+    table th:nth-child(4), table td:nth-child(4) {
+      display: none !important;
+    }
+    
+    /* 强制表格内的图片适应屏幕宽度，防止撑破手机屏幕 */
+    table img {
+      max-width: 100% !important;
+      height: auto !important;
+      border-radius: 5px;
+    }
+    
+    /* 让表格在手机上紧凑一点，留出呼吸感 */
+    table th, table td {
+      padding: 8px !important;
+    }
+
+    /* 移动端内容区域留白优化 */
+    .content {
+      padding: 20px 10px !important;
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>
+  
   <script>
     window.$docsify = {
       name: 'ResumeCollection',
       repo: 'vod88/ResumeCollection',
-      loadSidebar: true, // 如果你想要侧边栏导航，可以开启此项并添加 _sidebar.md
+      loadSidebar: true, 
       subMaxLevel: 2
     }
   </script>
